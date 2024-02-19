@@ -15,8 +15,8 @@ public class Arm {
     ServoImplEx clawRollServo;
     ServoImplEx clawPitchServo;
 
-    ArmRotate armRotate;
-    ArmExtend armExtend;
+    public ArmRotate armRotate;
+    public ArmExtend armExtend;
 
     Boolean clawLeftOpen = false;
     Boolean clawRightOpen = false;
