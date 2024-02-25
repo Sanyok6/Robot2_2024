@@ -113,7 +113,7 @@ public class Arm {
             clawRightServo.setPosition(clawRightOpen ? 0.4 : 0);
             clawLeftServo.setPosition(clawLeftOpen ? 0.6 : 1);
 
-            setRotateTarget(100);
+            setRotateTarget(300);
             setExtendTarget(300);
         } else if (mode == ArmMode.drive) {
             clawPitchServo.setPosition(0);
@@ -123,7 +123,7 @@ public class Arm {
             clawLeftServo.setPosition(1);
 
 
-            if (armExtend.currentPosition() - (int) (0.0574454233 * armRotate.currentPosition() - 0.7430232633) < 25) { setRotateTarget(50); }
+            if (armExtend.currentPosition() - (int) (0.0574454233 * armRotate.currentPosition() - 0.7430232633) < 25) { setRotateTarget(250); }
             setExtendTarget(0);
         } else if (mode == ArmMode.outtake) {
             clawPitchServo.setPosition(0.8);
