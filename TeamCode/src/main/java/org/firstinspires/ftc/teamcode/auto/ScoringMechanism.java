@@ -72,12 +72,10 @@ public class ScoringMechanism {
         clawRollServo.setPosition(0.55);
 
         armRotate.setTarget(2000);
-        armExtend.setTarget(0 + (int) (0.0574454233 * 1800 - 0.7430232633));
+        armExtend.setTarget(0 + (int) (0.0574454233 * 2000 - 0.7430232633));
     };
 
-    public InstantFunction releaseYellowPixel = () -> {
-        moveYellowPixelClaw(true);
-    };
+    public InstantFunction releaseYellowPixel = () -> moveYellowPixelClaw(true);
 
     public Action armToDriveMode = (t) -> {
         armRotate.setTarget(400);
@@ -93,6 +91,27 @@ public class ScoringMechanism {
         }
 
         return true;
+    };
+
+    public InstantFunction test = () -> {
+        clawPitchServo.setPosition(0.86);
+        clawRollServo.setPosition(0.55);
+
+        armRotate.setTarget(2000);
+        armExtend.setTarget(0 + (int) (0.0574454233 * 2000 - 0.7430232633));
+
+        opMode.sleep(1000);
+
+        armExtend.setTarget(325 + (int) (0.0574454233 * 2000 - 0.7430232633), 1);
+
+        opMode.sleep(500);
+
+        moveYellowPixelClaw(true);
+
+        armExtend.setTarget(0 + (int) (0.0574454233 * 2000 - 0.7430232633), 0.5);
+
+        opMode.sleep(1000);
+
     };
 
     private void movePurplePixelClaw(boolean open) {

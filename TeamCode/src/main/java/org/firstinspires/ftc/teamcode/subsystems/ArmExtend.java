@@ -10,12 +10,14 @@ public class ArmExtend {
         this.motor = motor;
     }
 
-    public void setTarget(int target) {
+    public void setTarget(int target) {setTarget(target, 1);}
+
+    public void setTarget(int target, double power) {
         this.target = target;
 
         motor.setTargetPosition(target);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor.setPower(1);
+        motor.setPower(power);
     }
 
     public int currentPosition() {

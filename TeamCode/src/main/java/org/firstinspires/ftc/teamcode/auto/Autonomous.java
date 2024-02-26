@@ -44,12 +44,28 @@ public class Autonomous {
                                 .strafeTo(new Vector2d(45, yCoordinate(-30)))
                                 .build();
 
+                Action betterLeftPosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-60), angle(270)))
+                        .afterTime(1, scoringMechanism.lowerOuttake)
+                        .strafeToLinearHeading(new Vector2d(34, yCoordinate(-28)), angle(180))
+                        .stopAndAdd(scoringMechanism.placePurplePixel)
+                        .strafeTo(new Vector2d(38, yCoordinate(-36)))
+                        .stopAndAdd(scoringMechanism.test)
+                        .build();
+
                 Action middlePosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-60), angle(270)))
                         .afterTime(1, scoringMechanism.lowerOuttake)
                         .strafeToLinearHeading(new Vector2d(25, yCoordinate(-21)), angle(180))
                         .stopAndAdd(scoringMechanism.placePurplePixel)
                         .strafeTo(new Vector2d(40, yCoordinate(-30)))
                         .strafeTo(new Vector2d(45, yCoordinate(-30)), null, new ProfileAccelConstraint(-5, 50))
+                        .build();
+
+                Action betterMiddlePosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-60), angle(270)))
+                        .afterTime(1, scoringMechanism.lowerOuttake)
+                        .strafeToLinearHeading(new Vector2d(25, yCoordinate(-21)), angle(180))
+                        .stopAndAdd(scoringMechanism.placePurplePixel)
+                        .strafeTo(new Vector2d(38, yCoordinate(-30)))
+                        .stopAndAdd(scoringMechanism.test)
                         .build();
 
                 Action rightPosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-60), angle(270)))
@@ -61,12 +77,21 @@ public class Autonomous {
                         .strafeTo(new Vector2d(45, yCoordinate(-30)), null, new ProfileAccelConstraint(-5, 50))
                         .build();
 
+            Action betterRightPosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-60), angle(270)))
+                    .afterTime(1.5, scoringMechanism.lowerOuttake)
+                    .strafeToLinearHeading(new Vector2d(18, yCoordinate(-40)), angle(180))
+                    .strafeTo(new Vector2d(10, yCoordinate(-30)))
+                    .stopAndAdd(scoringMechanism.placePurplePixel)
+                    .strafeTo(new Vector2d(38, yCoordinate(-22)))
+                    .stopAndAdd(scoringMechanism.test)
+                    .build();
+
 
             opMode.waitForStart();
 
                 Actions.runBlocking(
                         new SequentialAction(
-                                leftPosTraj
+                                betterRightPosTraj
                         )
 //                    new SequentialAction(
 //                            toOddGroundPositions
