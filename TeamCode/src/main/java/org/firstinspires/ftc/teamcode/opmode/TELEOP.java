@@ -44,9 +44,15 @@ public class TELEOP extends LinearOpMode {
 
 
             if (gamepad2.a) {
-                arm.setMode(ArmMode.drive);
+                arm.setMode(ArmMode.DRIVE);
             } else if (gamepad2.b) {
-                arm.setMode(ArmMode.outtake);
+                arm.setMode(ArmMode.OUTTAKE);
+            } else if (gamepad2.y) {
+                if (gamepad1.y) {
+                    arm.setMode(ArmMode.HANG);
+                } else {
+                    arm.setMode(ArmMode.VERTICAL);
+                }
             }
 
             arm.setClawLeftOpen(gamepad2.left_trigger > 0);

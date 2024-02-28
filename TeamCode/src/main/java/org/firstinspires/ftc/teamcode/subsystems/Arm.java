@@ -35,7 +35,7 @@ public class Arm {
         armRotate = new ArmRotate(hardwareMap.get(DcMotorEx.class, "armRotate"));
         armExtend = new ArmExtend(hardwareMap.get(DcMotorEx.class, "linearSlide"));
 
-        mode = ArmMode.drive;
+        mode = ArmMode.DRIVE;
     }
 
     public void setMode(ArmMode mode) {
@@ -76,14 +76,14 @@ public class Arm {
 //    }
 
     void checkIfIntakeMode() {
-        if (mode == ArmMode.intake && !clawLeftOpen && !clawRightOpen) {
+        if (mode == ArmMode.INTAKE && !clawLeftOpen && !clawRightOpen) {
             if (timeSinceClawClose.milliseconds() >= 500) {
-                this.mode = ArmMode.drive;
+                this.mode = ArmMode.DRIVE;
             }
         } else if (clawLeftOpen || clawRightOpen) {
-            if (mode == ArmMode.drive) {
-                this.mode = ArmMode.intake;
-            } else if (mode == ArmMode.intake) {
+            if (mode == ArmMode.DRIVE) {
+                this.mode = ArmMode.INTAKE;
+            } else if (mode == ArmMode.INTAKE) {
                 timeSinceClawClose.reset();
             }
         }
@@ -107,15 +107,18 @@ public class Arm {
     }
 
     public void update() {
-        if (mode == ArmMode.intake) {
+        if (mode == ArmMode.INTAKE) {
             clawPitchServo.setPosition(0.55);
             clawRollServo.setPosition(0);
             clawRightServo.setPosition(clawRightOpen ? 0.4 : 0);
             clawLeftServo.setPosition(clawLeftOpen ? 0.6 : 1);
 
-            setRotateTarget(300);
+//            setRotateTarget(300);
+//            setExtendTarget(300);
+
+            setRotateTarget(150);
             setExtendTarget(300);
-        } else if (mode == ArmMode.drive) {
+        } else if (mode == ArmMode.DRIVE) {
             clawPitchServo.setPosition(0);
             clawRollServo.setPosition(0);
 
@@ -125,7 +128,7 @@ public class Arm {
 
             if (armExtend.currentPosition() - (int) (0.0574454233 * armRotate.currentPosition() - 0.7430232633) < 25) { setRotateTarget(250); }
             setExtendTarget(0);
-        } else if (mode == ArmMode.outtake) {
+        } else if (mode == ArmMode.OUTTAKE) {
             clawPitchServo.setPosition(0.8);
             clawRollServo.setPosition(0.55);
 
@@ -134,6 +137,15 @@ public class Arm {
 
 
             setRotateTarget(1800);
+            setExtendTarget(0);
+        } else if (mode == ArmMode.VERTICAL) {
+            setRotateTarget(1200);
+            setExtendTarget(0);
+
+            clawPitchServo.setPosition(1);
+            clawRollServo.setPosition(0);
+        } else if (mode == ArmMode.HANG) {
+            setRotateTarget(700);
             setExtendTarget(0);
         }
     }
