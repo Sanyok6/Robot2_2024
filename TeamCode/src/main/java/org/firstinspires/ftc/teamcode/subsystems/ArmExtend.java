@@ -20,6 +20,14 @@ public class ArmExtend {
         motor.setPower(power);
     }
 
+    public void setCompensatedTarget(int target, int rotation) {
+        setCompensatedTarget(target, rotation, 1);
+    }
+
+    public void setCompensatedTarget(int target, int rotation, double power) {
+        setTarget(target + (int) (0.027015 * rotation - 10.1046), power);
+    }
+
     public int currentPosition() {
         return motor.getCurrentPosition();
     }

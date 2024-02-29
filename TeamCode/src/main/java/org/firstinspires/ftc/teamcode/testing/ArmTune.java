@@ -11,10 +11,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.ArmExtend;
-import org.firstinspires.ftc.teamcode.subsystems.ArmMode;
-import org.firstinspires.ftc.teamcode.subsystems.ArmRotate;
+import org.firstinspires.ftc.teamcode.subsystems.ArmRotatePID;
 
 @Config
 @TeleOp(name="Arm Tune", group="Tuning")
@@ -23,10 +21,15 @@ public class ArmTune extends LinearOpMode {
     public static double clawLeftPos = 1; // Drive: 1, Intake: 0.6, Outtake: 0.9
 
     public static double clawRollPos = 0; // Drive: 0, Intake: 0, Outtake:
-    public static double clawPitchPos = 0.5; // Drive: 0, Intake: 0.55, Outtake:
+    public static double clawPitchPos = 0.5; // Drive: 0, Intake: 0.52, Outtake:
 
-    public static int rotationTarget = 0; // Drive: 50, Intake: 100, Outtake:
+    public static int rotationTarget = 0; // Drive: 300, Intake: 250, Outtake:
     public static int extensionTarget = 0; // Drive: 0, Intake: 300, Outtake:
+
+    public static double Kp = 0.001;
+
+    public static double max_acceleration = 0.01;
+    public static double max_velocity = 6;
 
 
     @Override
@@ -41,7 +44,7 @@ public class ArmTune extends LinearOpMode {
         ServoImplEx clawPitchServo = hardwareMap.get(ServoImplEx.class, "clawPitch");
         clawPitchServo.setPwmRange(new PwmControl.PwmRange(2500, 500));
 
-        ArmRotate armRotate = new ArmRotate(hardwareMap.get(DcMotorEx.class, "armRotate"));
+        ArmRotatePID armRotate = new ArmRotatePID(hardwareMap.get(DcMotorEx.class, "armRotate"), hardwareMap.get(DcMotorEx.class, "armRotateEncoder"));
         ArmExtend armExtend = new ArmExtend(hardwareMap.get(DcMotorEx.class, "linearSlide"));
 
         waitForStart();
@@ -55,14 +58,21 @@ public class ArmTune extends LinearOpMode {
 
             clawPitchServo.setPosition(clawPitchPos);
 
+
+            armRotate.Kp = Kp;
+
+            armRotate.max_acceleration = max_acceleration;
+            armRotate.max_velocity = max_velocity;
+
             armRotate.setTarget(rotationTarget);
+            armRotate.moveTowardsTarget();
 
-            double predictedExtension = 0.0574454233 * armRotate.currentPosition() - 0.7430232633;
-            armExtend.setTarget(extensionTarget + (int) predictedExtension);
+            armExtend.setCompensatedTarget(extensionTarget, rotationTarget);
 
 
-            telemetry.addData("Arm rotation", armRotate.currentPosition());
+            telemetry.addData("Arm rotation", armRotate.getCurrentPosition());
             telemetry.addData("Arm extension", armExtend.currentPosition());
+            telemetry.addData("Predicted extension", (int) (0.027015 * armRotate.getCurrentPosition() - 10.1046));
             telemetry.update();
         }
     }

@@ -60,7 +60,7 @@ public class TELEOP extends LinearOpMode {
 
             arm.update();
 
-            telemetry.addData("arm rotation", arm.armRotate.currentPosition());
+            telemetry.addData("arm rotation", arm.armRotate.getCurrentPosition());
             telemetry.update();
         }
     }

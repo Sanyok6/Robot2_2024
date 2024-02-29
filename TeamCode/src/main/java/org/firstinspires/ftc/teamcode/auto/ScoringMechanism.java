@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.auto;
 
-import androidx.annotation.NonNull;
-
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantFunction;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -11,10 +8,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.subsystems.ArmExtend;
-import org.firstinspires.ftc.teamcode.subsystems.ArmRotate;
+import org.firstinspires.ftc.teamcode.subsystems.ArmRotatePID;
 
 public class ScoringMechanism {
     LinearOpMode opMode;
@@ -24,7 +20,7 @@ public class ScoringMechanism {
     Servo clawLeftServo;
     Servo clawRollServo;
     ServoImplEx clawPitchServo;
-    ArmRotate armRotate;
+    ArmRotatePID armRotate;
     ArmExtend armExtend;
 
     public ScoringMechanism(LinearOpMode opMode, StartingPosition startingPosition) {
@@ -41,7 +37,7 @@ public class ScoringMechanism {
         clawPitchServo = hardwareMap.get(ServoImplEx.class, "clawPitch");
         clawPitchServo.setPwmRange(new PwmControl.PwmRange(2500, 500));
 
-        armRotate = new ArmRotate(hardwareMap.get(DcMotorEx.class, "armRotate"));
+        armRotate = new ArmRotatePID(hardwareMap.get(DcMotorEx.class, "armRotate"), hardwareMap.get(DcMotorEx.class, "armRotateEncoder"));
         armExtend = new ArmExtend(hardwareMap.get(DcMotorEx.class, "linearSlide"));
 
         clawRightServo.setPosition(0);
@@ -81,7 +77,7 @@ public class ScoringMechanism {
         armRotate.setTarget(400);
         armExtend.setTarget(0);
 
-        if (armRotate.currentPosition() < 1500) {
+        if (armRotate.getCurrentPosition() < 1500) {
             moveYellowPixelClaw(false);
 
             clawRollServo.setPosition(0);
