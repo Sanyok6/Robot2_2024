@@ -8,8 +8,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class ArmRotatePID {
     public DcMotor motor;
 
-    private DcMotorEx encoder;
-
     public double target = 0;
 
     // constants for PID
@@ -25,11 +23,10 @@ public class ArmRotatePID {
 
     ElapsedTime timer = new ElapsedTime();
 
-    public ArmRotatePID(DcMotor motor, DcMotorEx encoder) {
+    public ArmRotatePID(DcMotor motor) {
         this.motor = motor;
         motor.setDirection(DcMotorSimple.Direction.REVERSE);
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        this.encoder = encoder;
     }
 
     public void setTarget(int target) {
@@ -53,7 +50,7 @@ public class ArmRotatePID {
     }
 
     public int getCurrentPosition() {
-        return encoder.getCurrentPosition();
+        return -motor.getCurrentPosition();
     }
 
     double motion_profile(double max_acceleration, double max_velocity, double distance, double elapsed_time) {

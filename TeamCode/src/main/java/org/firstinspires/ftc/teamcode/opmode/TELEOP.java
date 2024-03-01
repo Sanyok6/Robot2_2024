@@ -53,6 +53,10 @@ public class TELEOP extends LinearOpMode {
                 } else {
                     arm.setMode(ArmMode.VERTICAL);
                 }
+            } else if (gamepad2.dpad_up) {
+                arm.moveAlongBackdrop(1);
+            } else if (gamepad2.dpad_down) {
+                arm.moveAlongBackdrop(-1);
             }
 
             arm.setClawLeftOpen(gamepad2.left_trigger > 0);
@@ -61,6 +65,7 @@ public class TELEOP extends LinearOpMode {
             arm.update();
 
             telemetry.addData("arm rotation", arm.armRotate.getCurrentPosition());
+            telemetry.addData("claw pos", arm.targetPitchPosition);
             telemetry.update();
         }
     }

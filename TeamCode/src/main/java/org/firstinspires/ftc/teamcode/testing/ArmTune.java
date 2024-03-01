@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.ArmExtend;
 import org.firstinspires.ftc.teamcode.subsystems.ArmRotatePID;
 
@@ -32,6 +33,10 @@ public class ArmTune extends LinearOpMode {
     public static double max_velocity = 6;
 
 
+    public static double x = 0;
+    public static double y = 0;
+    public static double θ = 0;
+
     @Override
     public void runOpMode() {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -44,8 +49,10 @@ public class ArmTune extends LinearOpMode {
         ServoImplEx clawPitchServo = hardwareMap.get(ServoImplEx.class, "clawPitch");
         clawPitchServo.setPwmRange(new PwmControl.PwmRange(2500, 500));
 
-        ArmRotatePID armRotate = new ArmRotatePID(hardwareMap.get(DcMotorEx.class, "armRotate"), hardwareMap.get(DcMotorEx.class, "armRotateEncoder"));
+        ArmRotatePID armRotate = new ArmRotatePID(hardwareMap.get(DcMotorEx.class, "armRotate"));
         ArmExtend armExtend = new ArmExtend(hardwareMap.get(DcMotorEx.class, "linearSlide"));
+
+        Arm arm = new Arm(hardwareMap);
 
         waitForStart();
 
@@ -73,6 +80,37 @@ public class ArmTune extends LinearOpMode {
             telemetry.addData("Arm rotation", armRotate.getCurrentPosition());
             telemetry.addData("Arm extension", armExtend.currentPosition());
             telemetry.addData("Predicted extension", (int) (0.027015 * armRotate.getCurrentPosition() - 10.1046));
+
+            double theta = Math.toRadians(θ);
+
+            //constant
+            double r = 14;
+
+            //outputs
+            double L = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(r, 2) - 2*r*x*Math.cos(theta) - 2*r*y*Math.sin(theta));
+            double phi_1 = Math.atan2(y - r*Math.sin(theta), x - r*Math.cos(theta));
+            double phi_2 = theta - phi_1;
+
+            phi_1 = Math.toDegrees(phi_1);
+            phi_2 = Math.toDegrees(phi_2);
+
+            // calculate linear slide encoder position from target extension length
+            double extensionTarget = 18.32 * L - 544.31;
+
+            // calculate arm rotation encoder position from angle
+            double rotationTarget = -24.3 * phi_1 + 4546;
+
+            // calculate pitch servo position from angle
+            double clawTarget = 0.00445 * phi_2 + 0.6;
+
+            telemetry.addData("raw extension target", L);
+            telemetry.addData("raw rotation target", phi_1);
+            telemetry.addData("raw claw target", phi_2);
+
+            telemetry.addData("extension target", extensionTarget);
+            telemetry.addData("rotation target", rotationTarget);
+            telemetry.addData("claw target", clawTarget);
+
             telemetry.update();
         }
     }

@@ -37,7 +37,7 @@ public class ScoringMechanism {
         clawPitchServo = hardwareMap.get(ServoImplEx.class, "clawPitch");
         clawPitchServo.setPwmRange(new PwmControl.PwmRange(2500, 500));
 
-        armRotate = new ArmRotatePID(hardwareMap.get(DcMotorEx.class, "armRotate"), hardwareMap.get(DcMotorEx.class, "armRotateEncoder"));
+        armRotate = new ArmRotatePID(hardwareMap.get(DcMotorEx.class, "armRotate"));
         armExtend = new ArmExtend(hardwareMap.get(DcMotorEx.class, "linearSlide"));
 
         clawRightServo.setPosition(0);

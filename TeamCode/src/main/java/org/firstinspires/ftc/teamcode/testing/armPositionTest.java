@@ -11,14 +11,14 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
-@TeleOp(name="full arm test", group="Tuning")
+@TeleOp(name="arm position test", group="Tuning")
 public class armPositionTest extends LinearOpMode {
 
     @Override
     public void runOpMode() {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        DcMotorEx armRotate = hardwareMap.get(DcMotorEx.class, "armRotateEncoder");
+        DcMotorEx armRotate = hardwareMap.get(DcMotorEx.class, "armRotate");
         DcMotorEx linearSlide = hardwareMap.get(DcMotorEx.class, "linearSlide");
 
         armRotate.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -33,9 +33,9 @@ public class armPositionTest extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            predictedExtension = 0.0574454233 * armRotate.getCurrentPosition() - 0.7430232633;
+            predictedExtension = 0.0574454233 * -armRotate.getCurrentPosition() - 0.7430232633;
 
-            telemetry.addData("Arm rotation: ", armRotate.getCurrentPosition());
+            telemetry.addData("Arm rotation: ", -armRotate.getCurrentPosition());
             telemetry.addData("Arm extension: ", linearSlide.getCurrentPosition());
             telemetry.addData("Predicted arm extension: ", predictedExtension);
             telemetry.update();
