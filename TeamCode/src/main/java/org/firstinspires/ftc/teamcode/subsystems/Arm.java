@@ -82,7 +82,7 @@ public class Arm {
         double newHeight = currentHeight + speed * 2;
         if (newHeight >= 20 && newHeight <= 60) {
             currentHeight = newHeight;
-            armKinematics(30.5, currentHeight, 60);
+            armKinematics(38, currentHeight, 60);
         }
     }
 
@@ -145,9 +145,8 @@ public class Arm {
             }
 
             if (armRotate.getCurrentPosition() > 1000) {
-                clawPitchServo.setPosition(0.8);
                 clawRollServo.setPosition(0.55);
-                clawPitchServo.setPosition((double) Math.round(targetPitchPosition * 10) / 10);
+                clawPitchServo.setPosition(targetPitchPosition);
             }
 
             clawRightServo.setPosition(clawRightOpen ? 0.1 : 0);
