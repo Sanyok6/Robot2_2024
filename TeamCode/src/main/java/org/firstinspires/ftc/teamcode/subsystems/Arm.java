@@ -70,7 +70,7 @@ public class Arm {
         double rotationTarget = -24.3 * phi_1 + 4546;
 
         // calculate pitch servo position from angle
-        double clawTarget = 0.00445 * phi_2 + 0.6;
+        double clawTarget = 0.00555 * phi_2 + 0.616;
 
         this.targetRotation = (int) rotationTarget;
         this.targetExtension = (int) extensionTarget;
@@ -123,7 +123,7 @@ public class Arm {
             clawRightServo.setPosition(clawRightOpen ? 0.4 : 0);
             clawLeftServo.setPosition(clawLeftOpen ? 0.6 : 1);
 
-            setRotateTarget(300);
+            setRotateTarget(280);
             setExtendTarget(300);
         } else if (mode == ArmMode.DRIVE) {
 

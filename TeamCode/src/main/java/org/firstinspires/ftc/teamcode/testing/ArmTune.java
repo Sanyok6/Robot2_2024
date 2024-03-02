@@ -101,7 +101,7 @@ public class ArmTune extends LinearOpMode {
             double rotationTarget = -24.3 * phi_1 + 4546;
 
             // calculate pitch servo position from angle
-            double clawTarget = 0.00445 * phi_2 + 0.6;
+            double clawTarget = 0.00555 * phi_2 + 0.616;
 
             telemetry.addData("raw extension target", L);
             telemetry.addData("raw rotation target", phi_1);
