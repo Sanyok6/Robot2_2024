@@ -1,14 +1,18 @@
 package org.firstinspires.ftc.teamcode.auto;
 
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.InstantFunction;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 public class Autonomous {
@@ -22,68 +26,69 @@ public class Autonomous {
 
                 ScoringMechanism scoringMechanism = new ScoringMechanism(opMode, startingPosition);
 
-                Action leftPosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-60), angle(270)))
-                                .afterTime(1, scoringMechanism.lowerOuttake)
-                                .strafeToLinearHeading(new Vector2d(34, yCoordinate(-28)), angle(180))
-                                .stopAndAdd(scoringMechanism.placePurplePixel)
-                                .afterTime(0, scoringMechanism.prepareToOuttakeYellowPixel)
-                                .strafeTo(new Vector2d(38, yCoordinate(-30)))
-                                .strafeTo(new Vector2d(44, yCoordinate(-30)), null, new ProfileAccelConstraint(-5, 50))
-                                .stopAndAdd(scoringMechanism.releaseYellowPixel)
-                                .waitSeconds(0.5)
-                                .strafeTo(new Vector2d(40, yCoordinate(-30)), null, new ProfileAccelConstraint(-5, 50))
-                                .stopAndAdd(scoringMechanism.armToDriveMode)
-                                .strafeTo(new Vector2d(45, yCoordinate(-30)))
-                                .build();
+                DistanceSensor leftDist = hardwareMap.get(DistanceSensor.class, "leftDist");
+                DistanceSensor rightDist = hardwareMap.get(DistanceSensor.class, "rightDist");
 
-                Action betterLeftPosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-60), angle(270)))
+                Action leftPosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-60), angle(270)))
                         .afterTime(1, scoringMechanism.lowerOuttake)
                         .strafeToLinearHeading(new Vector2d(34, yCoordinate(-28)), angle(180))
                         .stopAndAdd(scoringMechanism.placePurplePixel)
                         .strafeTo(new Vector2d(38, yCoordinate(-36)))
-                        .stopAndAdd(scoringMechanism.test)
+                        .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
+                        .waitSeconds(0.25)
+                        .stopAndAdd(scoringMechanism.placeYellowPixel())
                         .build();
 
                 Action middlePosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-60), angle(270)))
                         .afterTime(1, scoringMechanism.lowerOuttake)
                         .strafeToLinearHeading(new Vector2d(25, yCoordinate(-21)), angle(180))
                         .stopAndAdd(scoringMechanism.placePurplePixel)
-                        .strafeTo(new Vector2d(40, yCoordinate(-30)))
-                        .strafeTo(new Vector2d(45, yCoordinate(-30)), null, new ProfileAccelConstraint(-5, 50))
-                        .build();
-
-                Action betterMiddlePosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-60), angle(270)))
-                        .afterTime(1, scoringMechanism.lowerOuttake)
-                        .strafeToLinearHeading(new Vector2d(25, yCoordinate(-21)), angle(180))
-                        .stopAndAdd(scoringMechanism.placePurplePixel)
                         .strafeTo(new Vector2d(38, yCoordinate(-30)))
-                        .stopAndAdd(scoringMechanism.test)
+                        .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
+                        .waitSeconds(0.5)
+                        .stopAndAdd(scoringMechanism.placeYellowPixel())
                         .build();
 
                 Action rightPosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-60), angle(270)))
                         .afterTime(1.5, scoringMechanism.lowerOuttake)
-                        .strafeToLinearHeading(new Vector2d(15, yCoordinate(-40)), angle(180))
+                        .strafeToLinearHeading(new Vector2d(18, yCoordinate(-40)), angle(180))
                         .strafeTo(new Vector2d(10, yCoordinate(-30)))
                         .stopAndAdd(scoringMechanism.placePurplePixel)
-                        .strafeTo(new Vector2d(40, yCoordinate(-30)))
-                        .strafeTo(new Vector2d(45, yCoordinate(-30)), null, new ProfileAccelConstraint(-5, 50))
+                        .strafeTo(new Vector2d(38, yCoordinate(-22)))
+                        .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
+                        .waitSeconds(0.5)
+                        .stopAndAdd(scoringMechanism.placeYellowPixel())
                         .build();
 
-            Action betterRightPosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-60), angle(270)))
-                    .afterTime(1.5, scoringMechanism.lowerOuttake)
-                    .strafeToLinearHeading(new Vector2d(18, yCoordinate(-40)), angle(180))
-                    .strafeTo(new Vector2d(10, yCoordinate(-30)))
-                    .stopAndAdd(scoringMechanism.placePurplePixel)
-                    .strafeTo(new Vector2d(38, yCoordinate(-22)))
-                    .stopAndAdd(scoringMechanism.test)
-                    .build();
+                Action updateArm = (t) -> {
+                    scoringMechanism.armRotate.moveTowardsTarget();
+                    return true;
+                };
 
+                Action autoTrajectory = leftPosTraj;
 
-            opMode.waitForStart();
+                while (!opMode.isStarted()) {
+                    scoringMechanism.armRotate.moveTowardsTarget();
+
+                    TeamPropPosition teamPropPosition = determineTeamPropLocation(leftDist, rightDist);
+
+                    if (teamPropPosition == TeamPropPosition.LEFT) {
+                        autoTrajectory = leftPosTraj;
+                    } else if (teamPropPosition == TeamPropPosition.RIGHT) {
+                        autoTrajectory = rightPosTraj;
+                    } else {
+                        autoTrajectory = middlePosTraj;
+                    }
+
+                    opMode.telemetry.addData("Team prop location", teamPropPosition);
+                    opMode.telemetry.update();
+                }
+
 
                 Actions.runBlocking(
-                        new SequentialAction(
-                                betterRightPosTraj
+                        new ParallelAction(
+                                autoTrajectory,
+                                updateArm
                         )
 //                    new SequentialAction(
 //                            toOddGroundPositions
@@ -188,4 +193,23 @@ public class Autonomous {
             }
         }
 
+        public TeamPropPosition determineTeamPropLocation(DistanceSensor leftDist, DistanceSensor rightDist) {
+            if (startingPosition.color == StartingColor.RED) {
+                if (rightDist.getDistance(DistanceUnit.CM) < 70) {
+                    return TeamPropPosition.LEFT;
+                } else if (leftDist.getDistance(DistanceUnit.CM) < 70) {
+                    return TeamPropPosition.RIGHT;
+                } else {
+                    return TeamPropPosition.CENTER;
+                }
+            } else {
+                if (rightDist.getDistance(DistanceUnit.CM) < 70) {
+                    return TeamPropPosition.RIGHT;
+                } else if (leftDist.getDistance(DistanceUnit.CM) < 70) {
+                    return TeamPropPosition.LEFT;
+                } else {
+                    return TeamPropPosition.CENTER;
+                }
+            }
+        }
 }
