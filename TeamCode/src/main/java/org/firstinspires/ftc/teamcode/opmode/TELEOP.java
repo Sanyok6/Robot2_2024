@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
@@ -19,6 +20,8 @@ public class TELEOP extends LinearOpMode {
 
         Arm arm = new Arm(hardwareMap);
 
+        Servo planeServo = hardwareMap.servo.get("plane");
+        planeServo.setPosition(0);
 
         waitForStart();
 
@@ -57,6 +60,8 @@ public class TELEOP extends LinearOpMode {
                 arm.moveAlongBackdrop(1);
             } else if (gamepad2.dpad_down) {
                 arm.moveAlongBackdrop(-1);
+            } else if (gamepad1.dpad_left && gamepad2.dpad_left) {
+                planeServo.setPosition(0.2);
             }
 
             arm.setClawLeftOpen(gamepad2.left_trigger > 0);

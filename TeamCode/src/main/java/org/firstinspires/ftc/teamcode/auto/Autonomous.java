@@ -22,14 +22,14 @@ public class Autonomous {
                 HardwareMap hardwareMap = opMode.hardwareMap;
                 this.startingPosition = startingPosition;
 
-                MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(12, yCoordinate(-60), angle(270)));
+                MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(12, yCoordinate(-59), angle(270)));
 
                 ScoringMechanism scoringMechanism = new ScoringMechanism(opMode, startingPosition);
 
                 DistanceSensor leftDist = hardwareMap.get(DistanceSensor.class, "leftDist");
                 DistanceSensor rightDist = hardwareMap.get(DistanceSensor.class, "rightDist");
 
-                Action leftPosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-60), angle(270)))
+                Action leftPosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-59), angle(270)))
                         .afterTime(1, scoringMechanism.lowerOuttake)
                         .strafeToLinearHeading(new Vector2d(34, yCoordinate(-28)), angle(180))
                         .stopAndAdd(scoringMechanism.placePurplePixel)
@@ -39,7 +39,7 @@ public class Autonomous {
                         .stopAndAdd(scoringMechanism.placeYellowPixel())
                         .build();
 
-                Action middlePosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-60), angle(270)))
+                Action middlePosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-59), angle(270)))
                         .afterTime(1, scoringMechanism.lowerOuttake)
                         .strafeToLinearHeading(new Vector2d(25, yCoordinate(-21)), angle(180))
                         .stopAndAdd(scoringMechanism.placePurplePixel)
@@ -49,12 +49,12 @@ public class Autonomous {
                         .stopAndAdd(scoringMechanism.placeYellowPixel())
                         .build();
 
-                Action rightPosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-60), angle(270)))
+                Action rightPosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-59), angle(270)))
                         .afterTime(1.5, scoringMechanism.lowerOuttake)
                         .strafeToLinearHeading(new Vector2d(18, yCoordinate(-40)), angle(180))
                         .strafeTo(new Vector2d(10, yCoordinate(-30)))
                         .stopAndAdd(scoringMechanism.placePurplePixel)
-                        .strafeTo(new Vector2d(38, yCoordinate(-22)))
+                        .strafeTo(new Vector2d(38, yCoordinate(-23)))
                         .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
                         .waitSeconds(0.5)
                         .stopAndAdd(scoringMechanism.placeYellowPixel())

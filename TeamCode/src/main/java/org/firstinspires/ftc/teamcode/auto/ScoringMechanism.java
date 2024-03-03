@@ -52,8 +52,8 @@ public class ScoringMechanism {
         clawRollServo.setPosition(0);
         clawPitchServo.setPosition(0.01);
 
-        armRotate.setTarget(1000);
-        armExtend.setCompensatedTarget(0, 1000);
+        armRotate.setTarget(1200);
+        armExtend.setCompensatedTarget(0, 1200);
     }
 
     public InstantFunction lowerOuttake = () -> {
