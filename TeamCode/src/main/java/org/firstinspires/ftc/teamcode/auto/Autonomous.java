@@ -37,7 +37,14 @@ public class Autonomous {
                         .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
                         .waitSeconds(0.25)
                         .stopAndAdd(scoringMechanism.placeYellowPixel())
+
+                        .stopAndAdd(scoringMechanism.armToDriveMode)
+                        .strafeTo(new Vector2d(45, yCoordinate(-60)))
+                        .strafeTo(new Vector2d(60, yCoordinate(-60)))
+
                         .build();
+
+
 
                 Action middlePosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-59), angle(270)))
                         .afterTime(1, scoringMechanism.lowerOuttake)
@@ -47,6 +54,11 @@ public class Autonomous {
                         .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
                         .waitSeconds(0.5)
                         .stopAndAdd(scoringMechanism.placeYellowPixel())
+
+                        .stopAndAdd(scoringMechanism.armToDriveMode)
+                        .strafeTo(new Vector2d(45, yCoordinate(-60)))
+                        .strafeTo(new Vector2d(60, yCoordinate(-60)))
+
                         .build();
 
                 Action rightPosTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-59), angle(270)))
@@ -58,6 +70,11 @@ public class Autonomous {
                         .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
                         .waitSeconds(0.5)
                         .stopAndAdd(scoringMechanism.placeYellowPixel())
+
+                        .stopAndAdd(scoringMechanism.armToDriveMode)
+                        .strafeTo(new Vector2d(45, yCoordinate(-60)))
+                        .strafeTo(new Vector2d(60, yCoordinate(-60)))
+
                         .build();
 
                 Action updateArm = (t) -> {

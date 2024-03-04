@@ -143,7 +143,7 @@ public class ScoringMechanism {
 
         opMode.sleep(1000);
 
-        armExtend.setCompensatedTarget(325, 4000, 1);
+        armExtend.setCompensatedTarget(375, 4000, 1);
 
         opMode.sleep(500);
 

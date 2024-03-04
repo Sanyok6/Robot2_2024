@@ -45,6 +45,13 @@ public class ArmRotatePID {
         motor.setPower(motorPower);
     }
 
+    public void fastMoveToTarget() {
+        double instantTargetPosition = startingPosition + (distance > 1 ? 1 : -1) * motion_profile(10, 10, distance, timer.milliseconds());
+        double motorPower = (instantTargetPosition - getCurrentPosition()) * 0.01;
+
+        motor.setPower(motorPower);
+    }
+
     public Boolean reachedTarget() {
         return Math.abs(target-getCurrentPosition()) < 50;
     }

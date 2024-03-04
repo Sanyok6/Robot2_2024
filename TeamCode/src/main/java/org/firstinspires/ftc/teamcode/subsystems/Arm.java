@@ -15,6 +15,8 @@ public class Arm {
     ServoImplEx clawRollServo;
     ServoImplEx clawPitchServo;
 
+    Servo hangServo;
+
     public ArmRotatePID armRotate;
     public ArmExtend armExtend;
 
@@ -37,6 +39,9 @@ public class Arm {
 
         clawPitchServo = hardwareMap.get(ServoImplEx.class, "clawPitch");
         clawPitchServo.setPwmRange(new PwmControl.PwmRange(2500, 500));
+
+        hangServo = hardwareMap.servo.get("hang");
+        hangServo.setPosition(0.1);
 
         armRotate = new ArmRotatePID(hardwareMap.get(DcMotorEx.class, "armRotate"));
         armExtend = new ArmExtend(hardwareMap.get(DcMotorEx.class, "linearSlide"));
@@ -156,17 +161,24 @@ public class Arm {
             setExtendTarget(targetExtension);
 
         } else if (mode == ArmMode.VERTICAL) {
-            setRotateTarget(1200);
+            setRotateTarget(2500);
+            setExtendTarget(200);
+
+            clawPitchServo.setPosition(1);
+            clawRollServo.setPosition(0);
+            hangServo.setPosition(0.2);
+        } else if (mode == ArmMode.HANG) {
+            armRotate.setTarget(1000);
+            armRotate.fastMoveToTarget();
             setExtendTarget(0);
 
             clawPitchServo.setPosition(1);
             clawRollServo.setPosition(0);
-        } else if (mode == ArmMode.HANG) {
-            setRotateTarget(700);
-            setExtendTarget(0);
         }
 
-        armRotate.moveTowardsTarget();
+        if (mode != ArmMode.HANG) {
+            armRotate.moveTowardsTarget();
+        }
     }
 
 }
