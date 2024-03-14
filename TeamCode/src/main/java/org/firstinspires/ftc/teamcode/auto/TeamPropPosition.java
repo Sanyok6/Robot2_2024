@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode.auto;
 
 enum TeamPropPosition {
-    LEFT,
+    FAR,
     CENTER,
-    RIGHT
+    CLOSE
+
 }

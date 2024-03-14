@@ -12,7 +12,7 @@ public class AUTO_RED_CLOSE extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Autonomous autonomous = new Autonomous(this,
-                new StartingPosition(StartingColor.RED, StartingSide.CLOSE));
+                new StartingPosition(StartingColor.RED, StartingSide.BACKDROP));
 
     }
 }
