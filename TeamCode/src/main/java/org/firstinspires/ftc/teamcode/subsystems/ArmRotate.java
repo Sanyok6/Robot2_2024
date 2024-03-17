@@ -1,17 +1,17 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class ArmRotatePID {
+public class ArmRotate {
     public DcMotor motor;
 
     public double target = 0;
 
-    // constants for PID
+    // constants for PIDf
     public double Kp = 0.001;
+    public double f = 0.2;
 
     //constants for motion profiling
     public double max_acceleration = 0.01;
@@ -23,7 +23,7 @@ public class ArmRotatePID {
 
     ElapsedTime timer = new ElapsedTime();
 
-    public ArmRotatePID(DcMotor motor) {
+    public ArmRotate(DcMotor motor) {
         this.motor = motor;
         motor.setDirection(DcMotorSimple.Direction.REVERSE);
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -40,7 +40,8 @@ public class ArmRotatePID {
 
     public void moveTowardsTarget() {
         double instantTargetPosition = startingPosition + (distance > 1 ? 1 : -1) * motion_profile(max_acceleration, max_velocity, distance, timer.milliseconds());
-        double motorPower = (instantTargetPosition - getCurrentPosition()) * Kp;
+        double ff = Math.cos(-0.041152263 * instantTargetPosition - 4546) * f;
+        double motorPower = (instantTargetPosition - getCurrentPosition()) * Kp + ff;
 
         motor.setPower(motorPower);
     }

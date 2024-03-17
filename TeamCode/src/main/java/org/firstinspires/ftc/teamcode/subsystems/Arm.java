@@ -17,7 +17,7 @@ public class Arm {
 
     Servo hangServo;
 
-    public ArmRotatePID armRotate;
+    public ArmRotate armRotate;
     public ArmExtend armExtend;
 
     Boolean clawLeftOpen = false;
@@ -43,7 +43,7 @@ public class Arm {
         hangServo = hardwareMap.servo.get("hang");
         hangServo.setPosition(0.1);
 
-        armRotate = new ArmRotatePID(hardwareMap.get(DcMotorEx.class, "armRotate"));
+        armRotate = new ArmRotate(hardwareMap.get(DcMotorEx.class, "armRotate"));
         armExtend = new ArmExtend(hardwareMap.get(DcMotorEx.class, "linearSlide"));
 
         mode = ArmMode.DRIVE;

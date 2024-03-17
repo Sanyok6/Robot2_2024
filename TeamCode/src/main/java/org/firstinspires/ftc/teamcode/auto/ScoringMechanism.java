@@ -13,15 +13,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.checkerframework.checker.units.qual.A;
 import org.firstinspires.ftc.teamcode.subsystems.ArmExtend;
-import org.firstinspires.ftc.teamcode.subsystems.ArmRotatePID;
+import org.firstinspires.ftc.teamcode.subsystems.ArmRotate;
 
 public class ScoringMechanism {
     LinearOpMode opMode;
     StartingPosition startingPosition;
 
-    public ArmRotatePID armRotate;
+    public ArmRotate armRotate;
     ArmExtend armExtend;
 
     Servo clawRightServo;
@@ -43,7 +42,7 @@ public class ScoringMechanism {
         clawPitchServo = hardwareMap.get(ServoImplEx.class, "clawPitch");
         clawPitchServo.setPwmRange(new PwmControl.PwmRange(2500, 500));
 
-        armRotate = new ArmRotatePID(hardwareMap.get(DcMotorEx.class, "armRotate"));
+        armRotate = new ArmRotate(hardwareMap.get(DcMotorEx.class, "armRotate"));
         armExtend = new ArmExtend(hardwareMap.get(DcMotorEx.class, "linearSlide"));
 
         clawRightServo.setPosition(0);

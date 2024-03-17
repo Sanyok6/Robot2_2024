@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.ArmExtend;
-import org.firstinspires.ftc.teamcode.subsystems.ArmRotatePID;
+import org.firstinspires.ftc.teamcode.subsystems.ArmRotate;
 
 @Config
 @TeleOp(name="Arm Tune", group="Tuning")
@@ -28,6 +28,7 @@ public class ArmTune extends LinearOpMode {
     public static int extensionTarget = 0; // Drive: 0, Intake: 300, Outtake:
 
     public static double Kp = 0.001;
+    public static double f = 0.2;
 
     public static double max_acceleration = 0.01;
     public static double max_velocity = 6;
@@ -49,7 +50,7 @@ public class ArmTune extends LinearOpMode {
         ServoImplEx clawPitchServo = hardwareMap.get(ServoImplEx.class, "clawPitch");
         clawPitchServo.setPwmRange(new PwmControl.PwmRange(2500, 500));
 
-        ArmRotatePID armRotate = new ArmRotatePID(hardwareMap.get(DcMotorEx.class, "armRotate"));
+        ArmRotate armRotate = new ArmRotate(hardwareMap.get(DcMotorEx.class, "armRotate"));
         ArmExtend armExtend = new ArmExtend(hardwareMap.get(DcMotorEx.class, "linearSlide"));
 
         Arm arm = new Arm(hardwareMap);
@@ -67,6 +68,7 @@ public class ArmTune extends LinearOpMode {
 
 
             armRotate.Kp = Kp;
+            armRotate.f = f;
 
             armRotate.max_acceleration = max_acceleration;
             armRotate.max_velocity = max_velocity;
