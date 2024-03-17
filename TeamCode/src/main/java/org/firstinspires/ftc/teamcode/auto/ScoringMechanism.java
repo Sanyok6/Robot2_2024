@@ -65,13 +65,11 @@ public class ScoringMechanism {
     public InstantFunction placePurplePixel = () -> {
         movePurplePixelClaw(true);
 
-        opMode.sleep(500);
+        opMode.sleep(250);
 
         movePurplePixelClaw(false);
         clawPitchServo.setPosition(0);
     };
-
-    public InstantFunction releaseYellowPixel = () -> moveYellowPixelClaw(true);
 
     public Action armToDriveMode = (t) -> {
         armRotate.setTarget(400);
@@ -89,11 +87,11 @@ public class ScoringMechanism {
         return true;
     };
 
-    private class PrepareToOuttakeYellowPixel implements Action {
+    private class PrepareToOuttakePixel implements Action {
         int target;
         boolean armRotated = false;
         boolean clawMoved = false;
-        public PrepareToOuttakeYellowPixel(int target) {this.target = target;}
+        public PrepareToOuttakePixel(int target) {this.target = target;}
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if (!armRotated) {
@@ -108,7 +106,8 @@ public class ScoringMechanism {
             return true;
         }
     }
-    public Action prepareToOuttakeYellowPixel() {return new PrepareToOuttakeYellowPixel(4300);}
+    public Action prepareToOuttakeYellowPixel() {return new PrepareToOuttakePixel(4300);}
+    public Action prepareToOuttakeWhitePixel() {return new PrepareToOuttakePixel(3800);}
 
 
     private class PlaceYellowPixel implements Action {
@@ -131,28 +130,19 @@ public class ScoringMechanism {
     public Action placeYellowPixel() {return new PlaceYellowPixel();}
 
 
-    public InstantFunction placeYellowPixelOld = () -> {
-
-        armRotate.setTarget(4000);
-
-        opMode.sleep(500);
-
-        clawPitchServo.setPosition(0.86);
-        clawRollServo.setPosition(0.55);
-        armExtend.setCompensatedTarget(0, 4000);
-
-        opMode.sleep(1000);
-
-        armExtend.setCompensatedTarget(375, 4000, 1);
-
-        opMode.sleep(500);
-
-        moveYellowPixelClaw(true);
-
-        armExtend.setCompensatedTarget(0, 4000, 0.5);
-
-        opMode.sleep(1000);
+    public InstantFunction prepareToIntakeWhitePixel = () -> {
+        armRotate.setTarget(325);
+        armExtend.setCompensatedTarget(0, 340);
+        clawPitchServo.setPosition(0.55);
+        clawLeftServo.setPosition(0.6);
+        clawRightServo.setPosition(0.4);
     };
+
+    public InstantFunction intakeWhitePixel = () -> {
+        clawLeftServo.setPosition(1);
+        clawRightServo.setPosition(0);
+    };
+
 
     private void movePurplePixelClaw(boolean open) {
         if (startingPosition.color == StartingColor.RED) {

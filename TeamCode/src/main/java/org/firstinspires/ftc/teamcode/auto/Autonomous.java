@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.auto;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -66,28 +67,54 @@ public class Autonomous {
                         .strafeTo(new Vector2d(60, yCoordinate(-60)))
                         .build();
 
+
+                Action BackdropSideClosePosOneCycleTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-59), angle(270)))
+                        .afterTime(1, scoringMechanism.lowerOuttake)
+                        .strafeToLinearHeading(new Vector2d(32, yCoordinate(-28)), angle(180))
+                        .stopAndAdd(scoringMechanism.placePurplePixel)
+                        .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
+                        .strafeTo(new Vector2d(38, yCoordinate(-36)))
+                        .stopAndAdd(scoringMechanism.placeYellowPixel())
+                        .afterTime(0, scoringMechanism.armToDriveMode)
+
+                        .strafeTo(new Vector2d(35, yCoordinate(-6)))
+                        .afterTime(0.5, scoringMechanism.prepareToIntakeWhitePixel)
+                        .strafeTo(new Vector2d(-58, yCoordinate(-6)))
+                        .strafeTo(new Vector2d(-61, yCoordinate(-6)), null, new ProfileAccelConstraint(-5, 50))
+                        .stopAndAdd(scoringMechanism.intakeWhitePixel)
+
+                        .strafeTo(new Vector2d(-58, yCoordinate(-6)), null, new ProfileAccelConstraint(-50, 5))
+                        .strafeTo(new Vector2d(35, yCoordinate(-6)))
+                        .stopAndAdd(scoringMechanism.prepareToOuttakeWhitePixel())
+                        .strafeTo(new Vector2d(41, yCoordinate(-30)))
+                        .stopAndAdd(scoringMechanism.placeYellowPixel())
+                        .waitSeconds(0.5)
+                        .stopAndAdd(scoringMechanism.armToDriveMode)
+
+                        .build();
+
                 Action updateArm = (t) -> {
                     scoringMechanism.armRotate.moveTowardsTarget();
                     return true;
                 };
 
-                Action autoTrajectory = BackdropSideClosePosPreloadTraj;
+                Action autoTrajectory = BackdropSideClosePosOneCycleTraj;
 
                 while (!opMode.isStarted()) {
                     scoringMechanism.armRotate.moveTowardsTarget();
 
-                    TeamPropPosition teamPropPosition = determineTeamPropLocation(leftDist, rightDist);
-
-                    if (teamPropPosition == TeamPropPosition.FAR) {
-                        autoTrajectory = BackdropSideClosePosPreloadTraj;
-                    } else if (teamPropPosition == TeamPropPosition.CLOSE) {
-                        autoTrajectory = BackdropSideFarPosPreloadTraj;
-                    } else {
-                        autoTrajectory = BackdropSideCenterPosPreloadTraj;
-                    }
-
-                    opMode.telemetry.addData("Team prop location", teamPropPosition);
-                    opMode.telemetry.update();
+//                    TeamPropPosition teamPropPosition = determineTeamPropLocation(leftDist, rightDist);
+//
+//                    if (teamPropPosition == TeamPropPosition.FAR) {
+//                        autoTrajectory = BackdropSideClosePosPreloadTraj;
+//                    } else if (teamPropPosition == TeamPropPosition.CLOSE) {
+//                        autoTrajectory = BackdropSideFarPosPreloadTraj;
+//                    } else {
+//                        autoTrajectory = BackdropSideCenterPosPreloadTraj;
+//                    }
+//
+//                    opMode.telemetry.addData("Team prop location", teamPropPosition);
+//                    opMode.telemetry.update();
                 }
 
 
