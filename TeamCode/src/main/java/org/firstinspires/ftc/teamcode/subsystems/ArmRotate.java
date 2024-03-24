@@ -10,12 +10,12 @@ public class ArmRotate {
     public double target = 0;
 
     // constants for PIDf
-    public double Kp = 0.001;
-    public double f = 0.2;
+    public double Kp = 0.002;
+    public double f = 0;
 
     //constants for motion profiling
     public double max_acceleration = 0.01;
-    public double max_velocity = 6;
+    public double max_velocity = 4;
 
     // variables for motion profiling
     double distance = 0;

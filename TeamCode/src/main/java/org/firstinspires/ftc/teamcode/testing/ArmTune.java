@@ -27,11 +27,11 @@ public class ArmTune extends LinearOpMode {
     public static int rotationTarget = 0; // Drive: 300, Intake: 250, Outtake:
     public static int extensionTarget = 0; // Drive: 0, Intake: 300, Outtake:
 
-    public static double Kp = 0.001;
-    public static double f = 0.2;
+    public static double Kp = 0.002;
+    public static double f = 0;
 
     public static double max_acceleration = 0.01;
-    public static double max_velocity = 6;
+    public static double max_velocity = 4;
 
 
     public static double x = 0;

@@ -79,11 +79,10 @@ public class Autonomous {
 
                         .strafeTo(new Vector2d(35, yCoordinate(-6)))
                         .afterTime(0.5, scoringMechanism.prepareToIntakeWhitePixel)
-                        .strafeTo(new Vector2d(-58, yCoordinate(-6)))
-                        .strafeTo(new Vector2d(-61, yCoordinate(-6)), null, new ProfileAccelConstraint(-5, 50))
+                        .strafeTo(new Vector2d(-60, yCoordinate(-6)))
                         .stopAndAdd(scoringMechanism.intakeWhitePixel)
 
-                        .strafeTo(new Vector2d(-58, yCoordinate(-6)), null, new ProfileAccelConstraint(-50, 5))
+                        .strafeTo(new Vector2d(-59, yCoordinate(-6)), null, new ProfileAccelConstraint(-50, 5))
                         .strafeTo(new Vector2d(35, yCoordinate(-6)))
                         .stopAndAdd(scoringMechanism.prepareToOuttakeWhitePixel())
                         .strafeTo(new Vector2d(41, yCoordinate(-30)))
