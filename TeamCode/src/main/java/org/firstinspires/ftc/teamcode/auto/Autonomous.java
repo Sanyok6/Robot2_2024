@@ -145,36 +145,36 @@ public class Autonomous {
         public TeamPropPosition determineTeamPropLocation(DistanceSensor leftDist, DistanceSensor rightDist) {
             if (startingPosition.color == StartingColor.BLUE) {
                     if (startingPosition.side == StartingSide.BACKDROP) {
-                        if (leftDist.getDistance(DistanceUnit.CM) < 80) {
-                            return TeamPropPosition.CLOSE;
-                        } else if (centerDist.getDistance(DistanceUnit.CM) < 80) {
+                        if (centerDist.getDistance(DistanceUnit.CM) < 90) {
                             return TeamPropPosition.CENTER;
+                        } else if (leftDist.getDistance(DistanceUnit.CM) < 90) {
+                            return TeamPropPosition.CLOSE;
                         } else {
                             return TeamPropPosition.FAR;
                         }
                         } else { 
-                            if (rightDist.getDistance(DistanceUnit.CM) < 80) {
-                            return TeamPropPosition.FAR;
-                        } else if (centerDist.getDistance(DistanceUnit.CM) < 80) {
+                            if (centerDist.getDistance(DistanceUnit.CM) < 90) {
                             return TeamPropPosition.CENTER;
+                        } else if (rightDist.getDistance(DistanceUnit.CM) < 90) {
+                            return TeamPropPosition.FAR;
                         } else {
                             return TeamPropPosition.CLOSE;
                         }
                     }
             } else {
                     if (startingPosition.side == StartingSide.BACKDROP) {
-                        if (rightDist.getDistance(DistanceUnit.CM) < 80) {
-                            return TeamPropPosition.CLOSE;
-                        } else if (centerDist.getDistance(DistanceUnit.CM) < 80) {
+                        if (centerDist.getDistance(DistanceUnit.CM) < 90) {
                             return TeamPropPosition.CENTER;
+                        } else if (rightDist.getDistance(DistanceUnit.CM) < 90) {
+                            return TeamPropPosition.CLOSE;
                         } else {
                             return TeamPropPosition.FAR;
                         }
                         } else { 
-                            if (leftDist.getDistance(DistanceUnit.CM) < 80) {
-                            return TeamPropPosition.FAR;
-                        } else if (centerDist.getDistance(DistanceUnit.CM) < 80) {
+                            if (centerDist.getDistance(DistanceUnit.CM) < 90) {
                             return TeamPropPosition.CENTER;
+                        } else if (leftDist.getDistance(DistanceUnit.CM) < 90) {
+                            return TeamPropPosition.FAR;
                         } else {
                             return TeamPropPosition.CLOSE;
                         }
