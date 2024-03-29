@@ -26,6 +26,7 @@ public class Autonomous {
 
                 DistanceSensor leftDist = hardwareMap.get(DistanceSensor.class, "leftDist");
                 DistanceSensor rightDist = hardwareMap.get(DistanceSensor.class, "rightDist");
+                DistanceSensor centerDist = hardwareMap.get(DistanceSensor.class, "centerDist");
 
                 Action BackdropSideClosePosPreloadTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-59), angle(270)))
                         .afterTime(1, scoringMechanism.lowerOuttake)
@@ -142,22 +143,41 @@ public class Autonomous {
         }
 
         public TeamPropPosition determineTeamPropLocation(DistanceSensor leftDist, DistanceSensor rightDist) {
-            if (startingPosition.color == StartingColor.RED) {
-                if (rightDist.getDistance(DistanceUnit.CM) < 70) {
-                    return TeamPropPosition.FAR;
-                } else if (leftDist.getDistance(DistanceUnit.CM) < 70) {
-                    return TeamPropPosition.CLOSE;
-                } else {
-                    return TeamPropPosition.CENTER;
-                }
+            if (startingPosition.color == StartingColor.BLUE) {
+                    if (startingPosition.side == StartingSide.BACKDROP) {
+                        if (leftDist.getDistance(DistanceUnit.CM) < 80) {
+                            return TeamPropPosition.CLOSE;
+                        } else if (centerDist.getDistance(DistanceUnit.CM) < 80) {
+                            return TeamPropPosition.CENTER;
+                        } else {
+                            return TeamPropPosition.FAR;
+                        }
+                        } else { 
+                            if (rightDist.getDistance(DistanceUnit.CM) < 80) {
+                            return TeamPropPosition.FAR;
+                        } else if (centerDist.getDistance(DistanceUnit.CM) < 80) {
+                            return TeamPropPosition.CENTER;
+                        } else {
+                            return TeamPropPosition.CLOSE;
+                        }
+                    }
             } else {
-                if (rightDist.getDistance(DistanceUnit.CM) < 70) {
-                    return TeamPropPosition.CLOSE;
-                } else if (leftDist.getDistance(DistanceUnit.CM) < 70) {
-                    return TeamPropPosition.FAR;
-                } else {
-                    return TeamPropPosition.CENTER;
+                    if (startingPosition.side == StartingSide.BACKDROP) {
+                        if (rightDist.getDistance(DistanceUnit.CM) < 80) {
+                            return TeamPropPosition.CLOSE;
+                        } else if (centerDist.getDistance(DistanceUnit.CM) < 80) {
+                            return TeamPropPosition.CENTER;
+                        } else {
+                            return TeamPropPosition.FAR;
+                        }
+                        } else { 
+                            if (leftDist.getDistance(DistanceUnit.CM) < 80) {
+                            return TeamPropPosition.FAR;
+                        } else if (centerDist.getDistance(DistanceUnit.CM) < 80) {
+                            return TeamPropPosition.CENTER;
+                        } else {
+                            return TeamPropPosition.CLOSE;
+                        }
+                    }
                 }
-            }
-        }
 }
