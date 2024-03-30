@@ -48,7 +48,7 @@ public class ScoringMechanism {
         clawRightServo.setPosition(0);
         clawLeftServo.setPosition(1);
 
-        clawRollServo.setPosition(0);
+        clawRollServo.setPosition(0.1);
         clawPitchServo.setPosition(0.01);
 
         armRotate.setTarget(1200);
@@ -77,7 +77,7 @@ public class ScoringMechanism {
         if (armRotate.getCurrentPosition() < 3000) {
             moveYellowPixelClaw(false);
 
-            clawRollServo.setPosition(0);
+            clawRollServo.setPosition(0.1);
             clawPitchServo.setPosition(0);
 
             return false;
@@ -87,26 +87,27 @@ public class ScoringMechanism {
     };
 
     private class PrepareToOuttakePixel implements Action {
-        int target;
+        int rotateTarget;
+        double clawPitchPos;
         boolean armRotated = false;
         boolean clawMoved = false;
-        public PrepareToOuttakePixel(int target) {this.target = target;}
+        public PrepareToOuttakePixel(int target, double pitch) {this.rotateTarget = target; this.clawPitchPos = pitch;}
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if (!armRotated) {
-                armRotate.setTarget(target);
-                armExtend.setCompensatedTarget(0, target);
+                armRotate.setTarget(rotateTarget);
+                armExtend.setCompensatedTarget(0, rotateTarget);
                 armRotated = true;
             } else if (armRotate.getCurrentPosition() > 1000 && !clawMoved) {
-                clawPitchServo.setPosition(0.86);
-                clawRollServo.setPosition(0.55);
+                clawPitchServo.setPosition(clawPitchPos);
+                clawRollServo.setPosition(0.73);
                 clawMoved = true;
             } else return !armRotate.reachedTarget();
             return true;
         }
     }
-    public Action prepareToOuttakeYellowPixel() {return new PrepareToOuttakePixel(4300);}
-    public Action prepareToOuttakeWhitePixel() {return new PrepareToOuttakePixel(3600);}
+    public Action prepareToOuttakeYellowPixel() {return new PrepareToOuttakePixel(4300, 0.86);}
+    public Action prepareToOuttakeWhitePixel() {return new PrepareToOuttakePixel(3900, 0.8);}
 
 
     private class PlaceYellowPixel implements Action {
@@ -130,7 +131,7 @@ public class ScoringMechanism {
 
 
     public InstantFunction prepareToIntakeWhitePixel = () -> {
-        armRotate.setTarget(335);
+        armRotate.setTarget(280);
         armExtend.setCompensatedTarget(0, 340);
         clawPitchServo.setPosition(0.55);
         clawLeftServo.setPosition(0.6);

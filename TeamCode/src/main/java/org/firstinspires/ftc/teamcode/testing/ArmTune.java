@@ -21,7 +21,7 @@ public class ArmTune extends LinearOpMode {
     public static double clawRightPos = 0; // Drive: 0, Intake: 0.4, Outtake: 0.1
     public static double clawLeftPos = 1; // Drive: 1, Intake: 0.6, Outtake: 0.9
 
-    public static double clawRollPos = 0; // Drive: 0, Intake: 0, Outtake:
+    public static double clawRollPos = 0; // Drive: 0.1, Intake: 0.1, Outtake: 0.37
     public static double clawPitchPos = 0.5; // Drive: 0, Intake: 0.52, Outtake:
 
     public static int rotationTarget = 0; // Drive: 300, Intake: 250, Outtake:

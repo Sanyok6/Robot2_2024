@@ -41,7 +41,7 @@ public class Arm {
         clawPitchServo.setPwmRange(new PwmControl.PwmRange(2500, 500));
 
         hangServo = hardwareMap.servo.get("hang");
-        hangServo.setPosition(0.1);
+        hangServo.setPosition(1);
 
         armRotate = new ArmRotate(hardwareMap.get(DcMotorEx.class, "armRotate"));
         armExtend = new ArmExtend(hardwareMap.get(DcMotorEx.class, "linearSlide"));
@@ -124,7 +124,7 @@ public class Arm {
     public void update() {
         if (mode == ArmMode.INTAKE) {
             clawPitchServo.setPosition(0.54);
-            clawRollServo.setPosition(0);
+            clawRollServo.setPosition(0.1);
             clawRightServo.setPosition(clawRightOpen ? 0.4 : 0);
             clawLeftServo.setPosition(clawLeftOpen ? 0.6 : 1);
 
@@ -134,7 +134,7 @@ public class Arm {
 
             if (armRotate.getCurrentPosition() < 3000) {
                 clawPitchServo.setPosition(0);
-                clawRollServo.setPosition(0);
+                clawRollServo.setPosition(0.1);
             }
 
             clawRightServo.setPosition(0);
@@ -150,7 +150,7 @@ public class Arm {
             }
 
             if (armRotate.getCurrentPosition() > 1000) {
-                clawRollServo.setPosition(0.55);
+                clawRollServo.setPosition(0.73);
                 clawPitchServo.setPosition(targetPitchPosition);
             }
 
@@ -165,15 +165,15 @@ public class Arm {
             setExtendTarget(200);
 
             clawPitchServo.setPosition(1);
-            clawRollServo.setPosition(0);
-            hangServo.setPosition(0.2);
+            clawRollServo.setPosition(0.1);
+            hangServo.setPosition(0.7);
         } else if (mode == ArmMode.HANG) {
             armRotate.setTarget(1000);
             armRotate.fastMoveToTarget();
             setExtendTarget(0);
 
             clawPitchServo.setPosition(1);
-            clawRollServo.setPosition(0);
+            clawRollServo.setPosition(0.1);
         }
 
         if (mode != ArmMode.HANG) {
