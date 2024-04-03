@@ -47,8 +47,16 @@ public class ArmTune extends LinearOpMode {
 
         Servo clawRollServo = hardwareMap.get(Servo.class, "clawRoll");
 
+
         ServoImplEx clawPitchServo = hardwareMap.get(ServoImplEx.class, "clawPitch");
         clawPitchServo.setPwmRange(new PwmControl.PwmRange(2500, 500));
+
+        Servo hangServo = hardwareMap.get(Servo.class, "hang");
+        hangServo.setPosition(1);
+
+        Servo planeServo = hardwareMap.get(Servo.class, "plane");
+        planeServo.setPosition(0.97);
+
 
         ArmRotate armRotate = new ArmRotate(hardwareMap.get(DcMotorEx.class, "armRotate"));
         ArmExtend armExtend = new ArmExtend(hardwareMap.get(DcMotorEx.class, "linearSlide"));
@@ -56,6 +64,9 @@ public class ArmTune extends LinearOpMode {
         Arm arm = new Arm(hardwareMap);
 
         waitForStart();
+
+        hangServo.setPosition(0.7);
+        planeServo.setPosition(0.4);
 
         while (opModeIsActive()) {
 
