@@ -45,6 +45,7 @@ public class TELEOP extends LinearOpMode {
 
             if (gamepad1.y) {drive.imu.get().resetYaw();}
 
+            if (gamepad1.a) {arm.resetRotateEncoder();}
 
             if (gamepad2.a) {
                 arm.setMode(ArmMode.DRIVE);

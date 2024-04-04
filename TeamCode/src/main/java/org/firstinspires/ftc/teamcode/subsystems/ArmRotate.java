@@ -61,6 +61,14 @@ public class ArmRotate {
         return -motor.getCurrentPosition();
     }
 
+
+    public void resetEncoder() {
+        motor.setPower(0);
+        sleep(1000);
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
     double motion_profile(double max_acceleration, double max_velocity, double distance, double elapsed_time) {
 
         distance = Math.abs(distance);
@@ -122,4 +130,3 @@ public class ArmRotate {
     }
 
 }
-

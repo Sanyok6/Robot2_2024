@@ -121,6 +121,13 @@ public class Arm {
         armExtend.setCompensatedTarget(target, (int) armRotate.getCurrentPosition());
     }
 
+    public void resetRotateEncoder(){
+        clawPitchServo.setPosition(0.3);
+        setExtendTarget(0);
+        armRotate.resetEncoder();
+        this.mode = ArmMode.INTAKE;
+    }
+
     public void update() {
         if (mode == ArmMode.INTAKE) {
             clawPitchServo.setPosition(0.54);
