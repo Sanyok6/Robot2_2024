@@ -43,32 +43,36 @@ public class TELEOP extends LinearOpMode {
                     )
             );
 
-            if (gamepad1.y) {drive.imu.get().resetYaw();}
-
-            if (gamepad1.a) {arm.resetRotateEncoder();}
-
-            if (gamepad2.a) {
-                arm.setMode(ArmMode.DRIVE);
-            } else if (gamepad2.b) {
-                arm.setMode(ArmMode.OUTTAKE);
-            } else if (gamepad2.y) {
-                if (gamepad2.right_bumper) {
-                    arm.setMode(ArmMode.VERTICAL);
-                } else {
-                    arm.setMode(ArmMode.HANG);
-                }
-            } else if (gamepad2.dpad_up) {
-                arm.moveAlongBackdrop(1);
-            } else if (gamepad2.dpad_down) {
-                arm.moveAlongBackdrop(-1);
-            } else if (gamepad1.dpad_left && gamepad2.dpad_left) {
-                planeServo.setPosition(0.4);
+            if (gamepad1.y) {
+                drive.imu.get().resetYaw();
             }
 
-            arm.setClawLeftOpen(gamepad2.left_trigger > 0);
-            arm.setClawRightOpen(gamepad2.right_trigger > 0);
+            if (gamepad2.right_bumper && gamepad2.a && arm.mode == ArmMode.DRIVE) {
+                arm.resetRotateEncoder();
+            } else {
+                if (gamepad2.a) {
+                    arm.setMode(ArmMode.DRIVE);
+                } else if (gamepad2.b) {
+                    arm.setMode(ArmMode.OUTTAKE);
+                } else if (gamepad2.y) {
+                    if (gamepad2.right_bumper) {
+                        arm.setMode(ArmMode.VERTICAL);
+                    } else {
+                        arm.setMode(ArmMode.HANG);
+                    }
+                } else if (gamepad2.dpad_up) {
+                    arm.moveAlongBackdrop(1);
+                } else if (gamepad2.dpad_down) {
+                    arm.moveAlongBackdrop(-1);
+                } else if (gamepad1.dpad_left && gamepad2.dpad_left) {
+                    planeServo.setPosition(0.4);
+                }
 
-            arm.update();
+                arm.setClawLeftOpen(gamepad2.left_trigger > 0);
+                arm.setClawRightOpen(gamepad2.right_trigger > 0);
+
+                arm.update();
+            }
 
             telemetry.addData("arm rotation", arm.armRotate.getCurrentPosition());
             telemetry.addData("claw pos", arm.targetPitchPosition);

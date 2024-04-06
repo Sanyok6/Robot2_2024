@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PwmControl;
@@ -8,7 +9,7 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Arm {
-    ArmMode mode;
+    public ArmMode mode;
 
     Servo clawRightServo;
     Servo clawLeftServo;
@@ -124,8 +125,9 @@ public class Arm {
     public void resetRotateEncoder(){
         clawPitchServo.setPosition(0.3);
         setExtendTarget(0);
-        armRotate.resetEncoder();
-        this.mode = ArmMode.INTAKE;
+        armRotate.motor.setPower(0);
+        armRotate.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armRotate.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void update() {
