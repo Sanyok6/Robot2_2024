@@ -107,27 +107,30 @@ public class ScoringMechanism {
         }
     }
     public Action prepareToOuttakeYellowPixel() {return new PrepareToOuttakePixel(4300, 0.86);}
-    public Action prepareToOuttakeWhitePixel() {return new PrepareToOuttakePixel(3900, 0.8);}
+    public Action prepareToOuttakeWhitePixel() {return new PrepareToOuttakePixel(3850, 0.8);}
 
 
     private class PlaceYellowPixel implements Action {
+        double power;
         ElapsedTime timer = new ElapsedTime();
         boolean started = false;
+        public PlaceYellowPixel(double power) {this.power = power;}
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if (!started) {timer.reset(); started = true;}
-            if (timer.milliseconds() > 1500) {
+            if (timer.milliseconds() > 1500/(2*power)) {
                 return false;
             } else if (timer.milliseconds() > 1000) {
                 moveYellowPixelClaw(true);
-                armExtend.setCompensatedTarget(0, 4300, 0.5);
+                armExtend.setCompensatedTarget(0, 4300, power);
             } else {
                 armExtend.setCompensatedTarget(300, armRotate.getCurrentPosition());
             }
             return true;
         }
     }
-    public Action placeYellowPixel() {return new PlaceYellowPixel();}
+    public Action placeYellowPixel() {return new PlaceYellowPixel(0.5);}
+    public Action placeWhitePixel() {return new PlaceYellowPixel(0.2);}
 
 
     public InstantFunction prepareToIntakeWhitePixel = () -> {

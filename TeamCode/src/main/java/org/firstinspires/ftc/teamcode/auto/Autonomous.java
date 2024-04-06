@@ -87,7 +87,7 @@ public class Autonomous {
                 .strafeTo(new Vector2d(35, yCoordinate(-6)))
                 .stopAndAdd(scoringMechanism.prepareToOuttakeWhitePixel())
                 .strafeTo(new Vector2d(41, yCoordinate(-30)))
-                .stopAndAdd(scoringMechanism.placeYellowPixel())
+                .stopAndAdd(scoringMechanism.placeWhitePixel())
                 .waitSeconds(0.5)
                 .stopAndAdd(scoringMechanism.armToDriveMode)
 
