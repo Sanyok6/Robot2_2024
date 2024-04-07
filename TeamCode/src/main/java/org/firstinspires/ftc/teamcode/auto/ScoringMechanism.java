@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.subsystems.ArmRotate;
 
 public class ScoringMechanism {
     LinearOpMode opMode;
-    StartingPosition startingPosition;
+    AutoPath startingPosition;
 
     public ArmRotate armRotate;
     ArmExtend armExtend;
@@ -28,7 +28,7 @@ public class ScoringMechanism {
     Servo clawRollServo;
     ServoImplEx clawPitchServo;
 
-    public ScoringMechanism(LinearOpMode opMode, StartingPosition startingPosition) {
+    public ScoringMechanism(LinearOpMode opMode, AutoPath startingPosition) {
         this.opMode = opMode;
         this.startingPosition = startingPosition;
 
@@ -122,6 +122,7 @@ public class ScoringMechanism {
                 return false;
             } else if (timer.milliseconds() > 1000) {
                 moveYellowPixelClaw(true);
+                movePurplePixelClaw(true);
                 armExtend.setCompensatedTarget(0, 4300, power);
             } else {
                 armExtend.setCompensatedTarget(300, armRotate.getCurrentPosition());
