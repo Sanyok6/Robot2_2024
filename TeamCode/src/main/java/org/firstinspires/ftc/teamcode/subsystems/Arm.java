@@ -85,7 +85,7 @@ public class Arm {
 
     public void moveAlongBackdrop(double speed) {
         outtakePositionMoved = true;
-        double newHeight = currentHeight + speed * 2;
+        double newHeight = currentHeight + speed;
         if (newHeight >= 20 && newHeight <= 60) {
             currentHeight = newHeight;
             armKinematics(38, currentHeight, 60);

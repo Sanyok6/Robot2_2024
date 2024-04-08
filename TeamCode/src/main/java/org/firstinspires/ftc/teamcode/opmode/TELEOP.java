@@ -36,6 +36,9 @@ public class TELEOP extends LinearOpMode {
 
         Arm arm = new Arm(hardwareMap);
 
+        boolean armMoveUpPressed = false;
+        boolean armMoveDownPressed = false;
+
         Servo planeServo = hardwareMap.servo.get("plane");
         planeServo.setPosition(0.97);
 
@@ -107,10 +110,16 @@ public class TELEOP extends LinearOpMode {
                     } else {
                         arm.setMode(ArmMode.HANG);
                     }
+                } else if (!gamepad2.dpad_up && armMoveUpPressed) {
+                    arm.moveAlongBackdrop(6);
+                    armMoveUpPressed = false;
+                } else if (!gamepad2.dpad_down && armMoveDownPressed) {
+                    arm.moveAlongBackdrop(-6);
+                    armMoveDownPressed = false;
                 } else if (gamepad2.dpad_up) {
-                    arm.moveAlongBackdrop(1);
+                    armMoveUpPressed = true;
                 } else if (gamepad2.dpad_down) {
-                    arm.moveAlongBackdrop(-1);
+                    armMoveDownPressed = true;
                 } else if (gamepad1.dpad_left && gamepad2.dpad_left) {
                     planeServo.setPosition(0.4);
                 }
