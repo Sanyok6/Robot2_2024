@@ -107,7 +107,7 @@ public class ScoringMechanism {
         }
     }
     public Action prepareToOuttakeYellowPixel() {return new PrepareToOuttakePixel(4300, 0.86);}
-    public Action prepareToOuttakeWhitePixel() {return new PrepareToOuttakePixel(3850, 0.8);}
+    public Action prepareToOuttakeWhitePixel() {return new PrepareToOuttakePixel(3800, 0.8);}
 
 
     private class PlaceYellowPixel implements Action {
@@ -133,6 +133,10 @@ public class ScoringMechanism {
     public Action placeYellowPixel() {return new PlaceYellowPixel(0.5);}
     public Action placeWhitePixel() {return new PlaceYellowPixel(0.2);}
 
+    public InstantFunction placeWhitePixelNew = () -> {
+        moveYellowPixelClaw(true);
+        movePurplePixelClaw(true);
+    };
 
     public InstantFunction prepareToIntakeWhitePixel = () -> {
         armRotate.setTarget(280);

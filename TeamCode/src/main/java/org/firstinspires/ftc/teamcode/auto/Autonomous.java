@@ -93,10 +93,13 @@ public class Autonomous {
                 .strafeTo(new Vector2d(-59, yCoordinate(-6)), null, new ProfileAccelConstraint(-50, 5))
                 .strafeTo(new Vector2d(35, yCoordinate(-6)))
                 .stopAndAdd(scoringMechanism.prepareToOuttakeWhitePixel())
-                .strafeTo(new Vector2d(41, yCoordinate(-30)))
-                .stopAndAdd(scoringMechanism.placeWhitePixel())
+                .strafeTo(new Vector2d(40, yCoordinate(-30)))
+                .strafeTo(new Vector2d(45, yCoordinate(-30)))
+                .stopAndAdd(scoringMechanism.placeWhitePixelNew)
+                .strafeTo(new Vector2d(38, yCoordinate(-30)), null, new ProfileAccelConstraint(-50, 5))
                 .waitSeconds(0.5)
                 .stopAndAdd(scoringMechanism.armToDriveMode)
+                .strafeTo(new Vector2d(43, yCoordinate(-30)))
 
                 .build();
 
@@ -117,10 +120,14 @@ public class Autonomous {
                 .strafeTo(new Vector2d(-59, yCoordinate(-6)), null, new ProfileAccelConstraint(-50, 5))
                 .strafeTo(new Vector2d(35, yCoordinate(-6)))
                 .stopAndAdd(scoringMechanism.prepareToOuttakeWhitePixel())
-                .strafeTo(new Vector2d(41, yCoordinate(-30)))
-                .stopAndAdd(scoringMechanism.placeWhitePixel())
+                .strafeTo(new Vector2d(40, yCoordinate(-30)))
+                .strafeTo(new Vector2d(45, yCoordinate(-30)))
+                .stopAndAdd(scoringMechanism.placeWhitePixelNew)
+                .strafeTo(new Vector2d(38, yCoordinate(-30)), null, new ProfileAccelConstraint(-50, 5))
                 .waitSeconds(0.5)
                 .stopAndAdd(scoringMechanism.armToDriveMode)
+                .strafeTo(new Vector2d(43, yCoordinate(-30)))
+
 
                 .build();
 
@@ -142,10 +149,14 @@ public class Autonomous {
                 .strafeTo(new Vector2d(-59, yCoordinate(-6)), null, new ProfileAccelConstraint(-50, 5))
                 .strafeTo(new Vector2d(35, yCoordinate(-6)))
                 .stopAndAdd(scoringMechanism.prepareToOuttakeWhitePixel())
-                .strafeTo(new Vector2d(41, yCoordinate(-30)))
-                .stopAndAdd(scoringMechanism.placeWhitePixel())
+                .strafeTo(new Vector2d(40, yCoordinate(-30)))
+                .strafeTo(new Vector2d(45, yCoordinate(-30)))
+                .stopAndAdd(scoringMechanism.placeWhitePixelNew)
+                .strafeTo(new Vector2d(38, yCoordinate(-30)), null, new ProfileAccelConstraint(-50, 5))
                 .waitSeconds(0.5)
                 .stopAndAdd(scoringMechanism.armToDriveMode)
+                .strafeTo(new Vector2d(43, yCoordinate(-30)))
+
 
                 .build();
 
