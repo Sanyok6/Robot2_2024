@@ -132,12 +132,12 @@ public class Arm {
 
     public void update() {
         if (mode == ArmMode.INTAKE) {
-            clawPitchServo.setPosition(0.54);
+            clawPitchServo.setPosition(0.56);
             clawRollServo.setPosition(0.1);
             clawRightServo.setPosition(clawRightOpen ? 0.4 : 0);
             clawLeftServo.setPosition(clawLeftOpen ? 0.6 : 1);
 
-            setRotateTarget(235);
+            setRotateTarget(220);
             setExtendTarget(300);
         } else if (mode == ArmMode.DRIVE) {
 
