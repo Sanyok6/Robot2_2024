@@ -24,7 +24,7 @@ public class Autonomous {
         if (isBackdropSide()) {
             startingPose = new Pose2d(12, yCoordinate(-59), angle(270));
         } else {
-            startingPose = new Pose2d(0,0,0);
+            startingPose = new Pose2d(-36, yCoordinate(-60), angle(270));
         }
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, startingPose);
@@ -74,6 +74,7 @@ public class Autonomous {
                 .strafeTo(new Vector2d(45, yCoordinate(-60)))
                 .strafeTo(new Vector2d(60, yCoordinate(-60)))
                 .build();
+
 
 
         Action BackdropSideClosePosOneCycleTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-59), angle(270)))
@@ -128,7 +129,6 @@ public class Autonomous {
                 .stopAndAdd(scoringMechanism.armToDriveMode)
                 .strafeTo(new Vector2d(43, yCoordinate(-30)))
 
-
                 .build();
 
         Action BackdropSideFarPosOneCycleTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-59), angle(270)))
@@ -157,6 +157,69 @@ public class Autonomous {
                 .stopAndAdd(scoringMechanism.armToDriveMode)
                 .strafeTo(new Vector2d(43, yCoordinate(-30)))
 
+                .build();
+
+
+
+
+
+        Action AudienceSideClosePosPreloadTrussTraj = drive.actionBuilder(new Pose2d(-36, yCoordinate(-60), angle(270)))
+                .afterTime(1, scoringMechanism.lowerOuttake)
+                .strafeToLinearHeading(new Vector2d(-40, yCoordinate(-40)), angle(0))
+                .strafeTo(new Vector2d(-34, yCoordinate(-28)))
+                .stopAndAdd(scoringMechanism.placePurplePixel)
+                .afterTime(0, scoringMechanism.armToDriveMode)
+
+                .strafeTo(new Vector2d(-40, yCoordinate(-56)))
+                .strafeTo(new Vector2d(35, yCoordinate(-56)))
+
+                .strafeToLinearHeading(new Vector2d(40, yCoordinate(-25)), angle(180))
+                .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
+                .stopAndAdd(scoringMechanism.placeYellowPixel())
+                .afterTime(0, scoringMechanism.armToDriveMode)
+
+                .strafeTo(new Vector2d(45, yCoordinate(-8)))
+                .strafeTo(new Vector2d(60, yCoordinate(-8)))
+
+                .build();
+
+
+        Action AudienceSideMiddlePosPreloadTrussTraj = drive.actionBuilder(new Pose2d(-36, yCoordinate(-60), angle(270)))
+                .afterTime(0.5, scoringMechanism.lowerOuttake)
+                .strafeToLinearHeading(new Vector2d(-49, yCoordinate(-18)), angle(0))
+                .stopAndAdd(scoringMechanism.placePurplePixel)
+                .afterTime(0, scoringMechanism.armToDriveMode)
+
+                .strafeTo(new Vector2d(-50, yCoordinate(-56)))
+                .strafeTo(new Vector2d(35, yCoordinate(-56)))
+
+                .strafeToLinearHeading(new Vector2d(38, yCoordinate(-31)), angle(180))
+                .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
+                .stopAndAdd(scoringMechanism.placeYellowPixel())
+                .afterTime(0, scoringMechanism.armToDriveMode)
+
+                .strafeTo(new Vector2d(45, yCoordinate(-8)))
+                .strafeTo(new Vector2d(60, yCoordinate(-8)))
+
+                .build();
+
+
+        Action AudienceSideFarPosPreloadTrussTraj = drive.actionBuilder(new Pose2d(-36, yCoordinate(-60), angle(270)))
+                .afterTime(0.5, scoringMechanism.lowerOuttake)
+                .strafeToLinearHeading(new Vector2d(-36, yCoordinate(-28)), angle(180))
+                .stopAndAdd(scoringMechanism.placePurplePixel)
+                .afterTime(0, scoringMechanism.armToDriveMode)
+
+                .strafeTo(new Vector2d(-35, yCoordinate(-56)))
+                .strafeTo(new Vector2d(35, yCoordinate(-56)))
+
+                .strafeToLinearHeading(new Vector2d(38, yCoordinate(-37)), angle(180))
+                .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
+                .stopAndAdd(scoringMechanism.placeYellowPixel())
+                .afterTime(0, scoringMechanism.armToDriveMode)
+
+                .strafeTo(new Vector2d(45, yCoordinate(-8)))
+                .strafeTo(new Vector2d(60, yCoordinate(-8)))
 
                 .build();
 
@@ -188,6 +251,14 @@ public class Autonomous {
                             autoTrajectory = BackdropSideClosePosOneCycleTraj;
                         } else {
                             autoTrajectory = BackdropSideCenterPosOneCycleTraj;
+                        }
+                    } else if (startingPosition.path == PathType.AUDIENCE_PRELOAD_TRUSS) {
+                        if (teamPropPosition == TeamPropPosition.FAR) {
+                            autoTrajectory = AudienceSideFarPosPreloadTrussTraj;
+                        } else if (teamPropPosition == TeamPropPosition.CLOSE) {
+                            autoTrajectory = AudienceSideClosePosPreloadTrussTraj;
+                        } else {
+                            autoTrajectory = AudienceSideMiddlePosPreloadTrussTraj;
                         }
                     }
 
