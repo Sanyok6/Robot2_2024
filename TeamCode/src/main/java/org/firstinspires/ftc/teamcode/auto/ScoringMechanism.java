@@ -56,7 +56,7 @@ public class ScoringMechanism {
     }
 
     public InstantFunction lowerOuttake = () -> {
-        armRotate.setTarget(175);
+        armRotate.setTarget(200);
         armExtend.setCompensatedTarget(0, 175);
         clawPitchServo.setPosition(0.5);
     };
@@ -64,10 +64,12 @@ public class ScoringMechanism {
     public InstantFunction placePurplePixel = () -> {
         movePurplePixelClaw(true);
 
-        opMode.sleep(250);
+        opMode.sleep(750);
 
-        movePurplePixelClaw(false);
         clawPitchServo.setPosition(0);
+        opMode.sleep(250);
+        movePurplePixelClaw(false);
+
     };
 
     public Action armToDriveMode = (t) -> {

@@ -36,10 +36,10 @@ public class Autonomous {
         DistanceSensor centerDist = hardwareMap.get(DistanceSensor.class, "centerDist");
 
         Action BackdropSideClosePosPreloadTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-59), angle(270)))
-                .afterTime(1, scoringMechanism.lowerOuttake)
-                .strafeToLinearHeading(new Vector2d(34, yCoordinate(-28)), angle(180))
+                .afterTime(0.5, scoringMechanism.lowerOuttake)
+                .strafeToLinearHeading(new Vector2d(33, yCoordinate(-28)), angle(180))
                 .stopAndAdd(scoringMechanism.placePurplePixel)
-                .strafeTo(new Vector2d(38, yCoordinate(-36)))
+                .strafeTo(new Vector2d(40, yCoordinate(-36)))
                 .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
                 .waitSeconds(0.25)
                 .stopAndAdd(scoringMechanism.placeYellowPixel())
@@ -49,10 +49,10 @@ public class Autonomous {
                 .build();
 
         Action BackdropSideCenterPosPreloadTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-59), angle(270)))
-                .afterTime(1, scoringMechanism.lowerOuttake)
-                .strafeToLinearHeading(new Vector2d(25, yCoordinate(-21)), angle(180))
+                .afterTime(0.5, scoringMechanism.lowerOuttake)
+                .strafeToLinearHeading(new Vector2d(25, yCoordinate(-20)), angle(180))
                 .stopAndAdd(scoringMechanism.placePurplePixel)
-                .strafeTo(new Vector2d(38, yCoordinate(-30)))
+                .strafeTo(new Vector2d(40, yCoordinate(-32)))
                 .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
                 .waitSeconds(0.5)
                 .stopAndAdd(scoringMechanism.placeYellowPixel())
@@ -62,11 +62,11 @@ public class Autonomous {
                 .build();
 
         Action BackdropSideFarPosPreloadTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-59), angle(270)))
-                .afterTime(1.5, scoringMechanism.lowerOuttake)
+                .afterTime(1, scoringMechanism.lowerOuttake)
                 .strafeToLinearHeading(new Vector2d(18, yCoordinate(-40)), angle(180))
                 .strafeTo(new Vector2d(10, yCoordinate(-30)))
                 .stopAndAdd(scoringMechanism.placePurplePixel)
-                .strafeTo(new Vector2d(38, yCoordinate(-23)))
+                .strafeTo(new Vector2d(40, yCoordinate(-23)))
                 .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
                 .waitSeconds(0.5)
                 .stopAndAdd(scoringMechanism.placeYellowPixel())
@@ -77,12 +77,14 @@ public class Autonomous {
 
 
 
+
+        // One cycle
         Action BackdropSideClosePosOneCycleTraj = drive.actionBuilder(new Pose2d(12, yCoordinate(-59), angle(270)))
                 .afterTime(1, scoringMechanism.lowerOuttake)
                 .strafeToLinearHeading(new Vector2d(32, yCoordinate(-28)), angle(180))
                 .stopAndAdd(scoringMechanism.placePurplePixel)
                 .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
-                .strafeTo(new Vector2d(38, yCoordinate(-36)))
+                .strafeTo(new Vector2d(40, yCoordinate(-36)))
                 .stopAndAdd(scoringMechanism.placeYellowPixel())
                 .afterTime(0, scoringMechanism.armToDriveMode)
 
@@ -109,7 +111,7 @@ public class Autonomous {
                 .strafeToLinearHeading(new Vector2d(25, yCoordinate(-20)), angle(180))
                 .stopAndAdd(scoringMechanism.placePurplePixel)
                 .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
-                .strafeTo(new Vector2d(38, yCoordinate(-30)))
+                .strafeTo(new Vector2d(40, yCoordinate(-30)))
                 .stopAndAdd(scoringMechanism.placeYellowPixel())
                 .afterTime(0, scoringMechanism.armToDriveMode)
 
@@ -137,7 +139,7 @@ public class Autonomous {
                 .strafeTo(new Vector2d(10, yCoordinate(-30)))
                 .stopAndAdd(scoringMechanism.placePurplePixel)
                 .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
-                .strafeTo(new Vector2d(38, yCoordinate(-23)))
+                .strafeTo(new Vector2d(40, yCoordinate(-23)))
                 .stopAndAdd(scoringMechanism.placeYellowPixel())
                 .afterTime(0, scoringMechanism.armToDriveMode)
 
@@ -162,8 +164,11 @@ public class Autonomous {
 
 
 
-
+        // Audience side
         Action AudienceSideClosePosPreloadTrussTraj = drive.actionBuilder(new Pose2d(-36, yCoordinate(-60), angle(270)))
+
+                .waitSeconds(10)
+
                 .afterTime(1, scoringMechanism.lowerOuttake)
                 .strafeToLinearHeading(new Vector2d(-40, yCoordinate(-40)), angle(0))
                 .strafeTo(new Vector2d(-34, yCoordinate(-28)))
@@ -173,18 +178,23 @@ public class Autonomous {
                 .strafeTo(new Vector2d(-40, yCoordinate(-56)))
                 .strafeTo(new Vector2d(35, yCoordinate(-56)))
 
-                .strafeToLinearHeading(new Vector2d(40, yCoordinate(-25)), angle(180))
+                .strafeToLinearHeading(new Vector2d(41, yCoordinate(-28)), angle(180))
                 .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
                 .stopAndAdd(scoringMechanism.placeYellowPixel())
                 .afterTime(0, scoringMechanism.armToDriveMode)
 
-                .strafeTo(new Vector2d(45, yCoordinate(-8)))
-                .strafeTo(new Vector2d(60, yCoordinate(-8)))
+//                .strafeTo(new Vector2d(45, yCoordinate(-8)))
+//                .strafeTo(new Vector2d(60, yCoordinate(-8)))
+                .strafeTo(new Vector2d(45, yCoordinate(-60)))
+                .strafeTo(new Vector2d(60, yCoordinate(-60)))
 
                 .build();
 
 
         Action AudienceSideMiddlePosPreloadTrussTraj = drive.actionBuilder(new Pose2d(-36, yCoordinate(-60), angle(270)))
+
+                .waitSeconds(10)
+
                 .afterTime(0.5, scoringMechanism.lowerOuttake)
                 .strafeToLinearHeading(new Vector2d(-49, yCoordinate(-18)), angle(0))
                 .stopAndAdd(scoringMechanism.placePurplePixel)
@@ -193,18 +203,23 @@ public class Autonomous {
                 .strafeTo(new Vector2d(-50, yCoordinate(-56)))
                 .strafeTo(new Vector2d(35, yCoordinate(-56)))
 
-                .strafeToLinearHeading(new Vector2d(38, yCoordinate(-31)), angle(180))
+                .strafeToLinearHeading(new Vector2d(41, yCoordinate(-29)), angle(180))
                 .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
                 .stopAndAdd(scoringMechanism.placeYellowPixel())
                 .afterTime(0, scoringMechanism.armToDriveMode)
 
-                .strafeTo(new Vector2d(45, yCoordinate(-8)))
-                .strafeTo(new Vector2d(60, yCoordinate(-8)))
+//                .strafeTo(new Vector2d(45, yCoordinate(-8)))
+//                .strafeTo(new Vector2d(60, yCoordinate(-8)))
+                .strafeTo(new Vector2d(45, yCoordinate(-60)))
+                .strafeTo(new Vector2d(60, yCoordinate(-60)))
 
                 .build();
 
 
         Action AudienceSideFarPosPreloadTrussTraj = drive.actionBuilder(new Pose2d(-36, yCoordinate(-60), angle(270)))
+
+                .waitSeconds(10)
+
                 .afterTime(0.5, scoringMechanism.lowerOuttake)
                 .strafeToLinearHeading(new Vector2d(-36, yCoordinate(-28)), angle(180))
                 .stopAndAdd(scoringMechanism.placePurplePixel)
@@ -213,13 +228,15 @@ public class Autonomous {
                 .strafeTo(new Vector2d(-35, yCoordinate(-56)))
                 .strafeTo(new Vector2d(35, yCoordinate(-56)))
 
-                .strafeToLinearHeading(new Vector2d(38, yCoordinate(-37)), angle(180))
+                .strafeToLinearHeading(new Vector2d(41, yCoordinate(-37)), angle(180))
                 .stopAndAdd(scoringMechanism.prepareToOuttakeYellowPixel())
                 .stopAndAdd(scoringMechanism.placeYellowPixel())
                 .afterTime(0, scoringMechanism.armToDriveMode)
 
-                .strafeTo(new Vector2d(45, yCoordinate(-8)))
-                .strafeTo(new Vector2d(60, yCoordinate(-8)))
+//                .strafeTo(new Vector2d(45, yCoordinate(-8)))
+//                .strafeTo(new Vector2d(60, yCoordinate(-8)))
+                .strafeTo(new Vector2d(45, yCoordinate(-60)))
+                .strafeTo(new Vector2d(60, yCoordinate(-60)))
 
                 .build();
 

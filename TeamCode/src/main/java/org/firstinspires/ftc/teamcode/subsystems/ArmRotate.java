@@ -15,7 +15,7 @@ public class ArmRotate {
 
     //constants for motion profiling
     public double max_acceleration = 0.01;
-    public double max_velocity = 3;
+    public double max_velocity = 4;
 
     // variables for motion profiling
     double distance = 0;
