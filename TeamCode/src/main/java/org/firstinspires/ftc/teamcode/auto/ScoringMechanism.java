@@ -156,17 +156,17 @@ public class ScoringMechanism {
 
     private void movePurplePixelClaw(boolean open) {
         if (startingPosition.color == StartingColor.RED) {
-            clawRightServo.setPosition(open ? 0.15 : 0);
+            clawRightServo.setPosition(open ? 0.18 : 0.91);
         } else {
-            clawLeftServo.setPosition(open ? 0.85 : 1);
+            clawLeftServo.setPosition(open ? 0.87 : 0.04);
         }
     }
 
     private void moveYellowPixelClaw(boolean open) {
         if (startingPosition.color == StartingColor.RED) {
-            clawLeftServo.setPosition(open ? 0.85 : 1);
+            clawLeftServo.setPosition(open ? 0.87 : 0.04);
         } else {
-            clawRightServo.setPosition(open ? 0.15 : 0);
+            clawRightServo.setPosition(open ? 0.18 : 0.91);
         }
     }
 
